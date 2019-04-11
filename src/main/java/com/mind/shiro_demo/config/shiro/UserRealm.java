@@ -27,6 +27,7 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private LoginService loginService;
 
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Session session = SecurityUtils.getSubject().getSession();

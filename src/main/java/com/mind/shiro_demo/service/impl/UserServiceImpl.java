@@ -1,14 +1,21 @@
 package com.mind.shiro_demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mind.shiro_demo.config.code.CommonCode;
+import com.mind.shiro_demo.config.code.TxResultResponse;
+import com.mind.shiro_demo.config.exception.CommonException;
 import com.mind.shiro_demo.dao.UserDao;
+import com.mind.shiro_demo.model.SysRole;
 import com.mind.shiro_demo.service.UserService;
 import com.mind.shiro_demo.util.CommonUtil;
 import com.mind.shiro_demo.util.constants.ErrorEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,8 +28,13 @@ import java.util.Set;
  */
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
+
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+
+    @Resource
     private UserDao userDao;
+
 
     /**
      * 装饰公司列表
@@ -204,4 +216,24 @@ public class UserServiceImpl implements UserService {
         userDao.removeRoleAllPermission(jsonObject);
         return CommonUtil.successJson();
     }
+
+    @Override
+    public TxResultResponse toTree() {
+        TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
+        log.info("【UserServiceImpl>>>toTree】**");
+        try {
+            List<SysRole> treeModels=
+        return null;
+        }
+        catch (CommonException e) {
+            log.error("【UserServiceImpl>>>toTree】CommonException e={}",e.getMsg());
+            throw  new CommonException(e.getCode(), e.getMsg());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("【UserServiceImpl>>>toTree】Exception e={}",e.getMessage());
+            throw new CommonException(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getMsg());
+        }
+    }
+
+
 }

@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @author: hxy
  * @description: 登录service实现类
@@ -25,7 +27,7 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService {
     private Logger logger = LoggerFactory.getLogger(LoginServiceImpl.class);
 
-    @Autowired
+    @Resource
     private LoginDao loginDao;
     @Autowired
     private PermissionService permissionService;

@@ -6,7 +6,7 @@
     <select id="countUser" resultType="Integer">
         SELECT count(0)
         FROM sys_user u
-        WHERE u.is_delete = '1'
+        WHERE u.is_delete = '0'
     </select>
 
     <resultMap id="userMap" type="com.mind.shiro_demo.util.model.One2Many">
@@ -38,7 +38,7 @@
                      DATE_FORMAT(create_time, '%Y.%m.%d %T') createTime,
                      DATE_FORMAT(update_time, '%Y.%m.%d %T') updateTime
                  FROM sys_user
-                 WHERE is_delete = '1'
+                 WHERE is_delete = '0'
                  ORDER BY id
                  LIMIT #{offSet}, #{pageRow}
              ) u
@@ -54,7 +54,7 @@
             id        roleId,
             role_name roleName
         FROM sys_role
-        WHERE is_delete='1'
+        WHERE is_delete='0'
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
@@ -105,7 +105,7 @@
             LEFT JOIN sys_user u ON r.id = u.role_id AND u.delete_status = '1'
             LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.delete_status = '1'
             LEFT JOIN sys_permission p ON rp.permission_id = p.id
-        WHERE r.is_delete = '1'
+        WHERE r.is_delete = '0'
         ORDER BY r.id, p.id
     </select>
     <resultMap id="permissionMap" type="com.mind.shiro_demo.util.model.One2Many">
@@ -158,8 +158,8 @@
             u.id        userId,
             p.id        permissionId
         FROM sys_role r
-            LEFT JOIN sys_user u ON r.id = u.role_id AND u.is_delete = '1'
-            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.is_delete = '1'
+            LEFT JOIN sys_user u ON r.id = u.role_id AND u.is_delete = '0'
+            LEFT JOIN sys_role_permission rp ON r.id = rp.role_id AND rp.is_delete = '0'
             LEFT JOIN sys_permission p ON rp.permission_id = p.id
         WHERE r.id = #{roleId}
     </select>
@@ -167,20 +167,20 @@
     <update id="removeRole">
         UPDATE sys_role
         SET
-            is_delete = '2'
+            is_delete = '1'
         WHERE id = #{roleId}
     </update>
     <update id="removeRoleAllPermission">
         UPDATE sys_role_permission
         SET
-            is_delete = '2'
+            is_delete = '1'
         WHERE role_id = #{roleId}
     </update>
 
     <update id="removeOldPermission">
         UPDATE sys_role_permission
         SET
-        is_delete = '2'
+        is_delete = '1'
         WHERE role_id = #{roleId}
         AND permission_id in (
         <foreach collection="permissions" item="item" index="index" separator=",">
@@ -198,6 +198,11 @@
         select count(0)
          from sys_user
          WHERE user_name=#{username}
-         AND is_delete='1';
+         AND is_delete='0';
+    </select>
+    <select id ="list" resultType="com.mind.shiro_demo.model.SysRole">
+        select *
+        from sys_role
+        where is_delete='0'
     </select>
 </mapper>

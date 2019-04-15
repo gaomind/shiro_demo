@@ -1,6 +1,7 @@
 package com.mind.shiro_demo.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mind.shiro_demo.config.code.TxResultResponse;
 
 /**
  * @author: hxy
@@ -77,4 +78,7 @@ public interface UserService {
      * @return
      */
     JSONObject deleteRole(JSONObject jsonObject);
+
+
+    TxResultResponse toTree();
 }

@@ -25,6 +25,6 @@ public class ShiroDemoApplicationTests {
     private RoleService roleService;
     @Test
     public void test1(){
-        System.out.println(roleService.toTree());
+
     }
 }

@@ -2,9 +2,6 @@ package com.mind.shiro_demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import com.mind.shiro_demo.config.code.CommonCode;
-import com.mind.shiro_demo.config.code.TxResultResponse;
-import com.mind.shiro_demo.config.exception.CommonException;
 import com.mind.shiro_demo.dao.SysRoleDAO;
 import com.mind.shiro_demo.dao.UserDao;
 import com.mind.shiro_demo.entity.SysRole;
@@ -13,6 +10,8 @@ import com.mind.shiro_demo.model.SysRoleModel;
 import com.mind.shiro_demo.service.RoleService;
 
 import com.mind.shiro_demo.util.AccountValidatorUtil;
+import com.mind.shiro_demo.util.CommonUtil;
+import com.mind.shiro_demo.util.constants.ErrorEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,41 +44,34 @@ public class RoleServiceImpl implements RoleService {
     private UserDao userDao;
 
     @Override
-    public TxResultResponse toTree() {
-        TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
+    public JSONObject toTree() {
+
         log.info("【UserServiceImpl>>>toTree】**");
-        try {
-            List<SysRole> sysRoles = roleDAO.list();
 
-            List<SysRoleModel> treeModels = beanMapper.mapAsList(sysRoles, SysRoleModel.class);
-            Iterator<SysRoleModel> iterator = treeModels.iterator();
-            //找出顶级组织机构（这里我们定义 顶级的pid为0 ）
-            ArrayList<SysRoleModel> rootNodes = Lists.newArrayList();
-            while (iterator.hasNext()) {
-                SysRoleModel role = iterator.next();
-                if (role.getParentId() == 0) {
-                    rootNodes.add(role);
-                    iterator.remove();
-                }
-            }
-            //为当前的组织机构排序（根据seq值）
-            if (!rootNodes.isEmpty()) {
-                rootNodes.sort(comparator);
-            }
+        List<SysRole> sysRoles = roleDAO.list();
 
-            if (!treeModels.isEmpty() && !rootNodes.isEmpty()) {
-                rootNodes.forEach(rootNode -> constructTree(rootNode, treeModels));
+        List<SysRoleModel> treeModels = beanMapper.mapAsList(sysRoles, SysRoleModel.class);
+        Iterator<SysRoleModel> iterator = treeModels.iterator();
+        //找出顶级组织机构（这里我们定义 顶级的pid为0 ）
+        ArrayList<SysRoleModel> rootNodes = Lists.newArrayList();
+        while (iterator.hasNext()) {
+            SysRoleModel role = iterator.next();
+            if (role.getParentId() == 0) {
+                rootNodes.add(role);
+                iterator.remove();
             }
-            tx.setData(rootNodes);
-            return tx;
-        } catch (CommonException e) {
-            log.error("【UserServiceImpl>>>toTree】CommonException e={}", e.getMsg());
-            throw new CommonException(e.getCode(), e.getMsg());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("【UserServiceImpl>>>toTree】Exception e={}", e.getMessage());
-            throw new CommonException(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getMsg());
         }
+        //为当前的组织机构排序（根据seq值）
+        if (!rootNodes.isEmpty()) {
+            rootNodes.sort(comparator);
+        }
+
+        if (!treeModels.isEmpty() && !rootNodes.isEmpty()) {
+            rootNodes.forEach(rootNode -> constructTree(rootNode, treeModels));
+        }
+        return CommonUtil.successJson();
+
+
     }
 
     private Comparator<SysRoleModel> comparator = new Comparator<SysRoleModel>() {
@@ -126,40 +118,130 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public TxResultResponse addRole(JSONObject jsonObject) {
-        TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
+    public JSONObject addRole(JSONObject jsonObject) {
         log.info("【RoleServiceImpl>>>addRole】Param = {}", jsonObject);
-        try {
-            SysRole parentRole = roleDAO.selectRoleById(String.valueOf(jsonObject.getIntValue("parentId")));
+        SysRole parentRole = roleDAO.selectRoleById(String.valueOf(jsonObject.getIntValue("parentId")));
+        if (AccountValidatorUtil.isNullOrEmpty(parentRole)) {
+            log.error("【RoleServiceImpl>>>addRole】异常parentRole为空{}", parentRole);
+            return CommonUtil.errorJson(ErrorEnum.E_10010);
+        }
+        SysRole newRole = SysRole.builder().roleName(jsonObject.getString("roleName"))
+                .confStatus("1")
+                .createTime(new Date())
+                .updateTime(new Date())
+                .isDelete("0")
+                .parentId(jsonObject.getIntValue("parentId"))
+                .level(parentRole.getLevel() + "." + parentRole.getId())
+                .principalName(jsonObject.getString("principalName"))
+                .principalTel(jsonObject.getString("principalTel"))
+                .build();
+        int i = roleDAO.insert(newRole);
+        int j = userDao.insertRolePermission(jsonObject.getString("roleId"), (List<Integer>) jsonObject.get("permissions"));
+        if (i + j != 2) {
+            log.error("【RoleServiceImpl>>>addRole】异常i={}j={}", i, j);
+            return CommonUtil.errorJson(ErrorEnum.E_10010);
+        }
+        return CommonUtil.successJson();
+    }
 
-            if (AccountValidatorUtil.isNullOrEmpty(parentRole)) {
-                log.error("【RoleServiceImpl>>>addRole】异常parentRole为空{}", parentRole);
-                throw new CommonException(CommonCode.ERROR.getCode(), CommonCode.PARAM_ERROR.getMsg());
-            }
-            SysRole newRole = SysRole.builder().roleName(jsonObject.getString("roleName"))
-                    .confStatus("1")
-                    .createTime(new Date())
-                    .updateTime(new Date())
-                    .isDelete("0")
-                    .parentId(jsonObject.getIntValue("parentId"))
-                    .level(parentRole.getLevel() + "." + parentRole.getId())
-                    .principalName(jsonObject.getString("principalName"))
-                    .principalTel(jsonObject.getString("principalTel"))
-                    .build();
-            int i=roleDAO.insert(newRole);
-            int j=userDao.insertRolePermission(jsonObject.getString("roleId"), (List<Integer>) jsonObject.get("permissions"));
-            if (i+j!=2){
-                log.error("【RoleServiceImpl>>>addRole】异常i={}j={}",i,j);
-                throw new CommonException(CommonCode.ERROR.getCode(),CommonCode.PARAM_ERROR.getMsg());
-            }
-            return tx;
-        } catch (CommonException e) {
-            log.error("【RoleServiceImpl>>>addRole】CommonException e={}", e.getMsg());
-            throw new CommonException(e.getCode(), e.getMsg());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("【RoleServiceImpl>>>addRole】Exception e={}", e.getMessage());
-            throw new CommonException(CommonCode.SERVER_ERROR.getCode(), CommonCode.SERVER_ERROR.getMsg());
+    @Override
+    @Transactional
+    public JSONObject upRole(JSONObject jsonObject) {
+        log.info("【RoleServiceImpl>>>upRole】Param = {}", jsonObject);
+        String roleId = jsonObject.getString("roleId");
+        Integer parentId=jsonObject.getIntValue("parentId");
+        String principalName= jsonObject.getString("principalName");
+        String principalTel= jsonObject.getString("principalTel");
+
+
+        List<Integer> newPerms = (List<Integer>) jsonObject.get("permissions");
+        JSONObject roleInfo = userDao.getRoleAllInfo(jsonObject);
+        Set<Integer> oldPerms = (Set<Integer>) roleInfo.get("permissionIds");
+        //修改角色名称
+        SysRole sysRole=roleDAO.selectRoleById(roleId);
+        SysRole parentRole=roleDAO.selectByPrimaryKey(parentId);
+        sysRole.setParentId(jsonObject.getIntValue("parentId"));
+        sysRole.setLevel(parentRole.getLevel() + "." + parentRole.getId());
+        sysRole.setPrincipalName(principalName);
+        sysRole.setPrincipalTel(principalTel);
+        sysRole.setUpdateTime(new Date());
+        int i=roleDAO.updateByPrimaryKey(sysRole);
+        if (i!=1){
+            log.error("【RoleServiceImpl>>>upRole】异常 i={}",i);
+            return CommonUtil.errorJson(ErrorEnum.E_10010);
+        }
+        //dealRoleName(jsonObject, roleInfo);
+        //添加新权限
+        saveNewPermission(roleId, newPerms, oldPerms);
+        //移除旧的不再拥有的权限
+        removeOldPermission(roleId, newPerms, oldPerms);
+        return CommonUtil.successJson();
+
+    }
+
+    @Override
+    public JSONObject delRole(JSONObject jsonObject) {
+        log.info("【RoleServiceImpl>>>delRole】Param = {}", jsonObject);
+
+        JSONObject roleInfo = userDao.getRoleAllInfo(jsonObject);
+        List<JSONObject> users = (List<JSONObject>) roleInfo.get("users");
+        if (users != null && users.size() > 0) {
+            return CommonUtil.errorJson(ErrorEnum.E_10008);
+        }
+        userDao.removeRole(jsonObject);
+        userDao.removeRoleAllPermission(jsonObject);
+        return CommonUtil.successJson();
+
+    }
+
+    /**
+     * 修改角色名称
+     *
+     * @param paramJson
+     * @param roleInfo
+     */
+    private void dealRoleName(JSONObject paramJson, JSONObject roleInfo) {
+        String roleName = paramJson.getString("roleName");
+        if (!roleName.equals(roleInfo.getString("roleName"))) {
+            userDao.updateRoleName(paramJson);
         }
     }
+
+    /**
+     * 为角色添加新权限
+     *
+     * @param newPerms
+     * @param oldPerms
+     */
+    private void saveNewPermission(String roleId, Collection<Integer> newPerms, Collection<Integer> oldPerms) {
+        List<Integer> waitInsert = new ArrayList<>();
+        for (Integer newPerm : newPerms) {
+            if (!oldPerms.contains(newPerm)) {
+                waitInsert.add(newPerm);
+            }
+        }
+        if (waitInsert.size() > 0) {
+            userDao.insertRolePermission(roleId, waitInsert);
+        }
+    }
+
+    /**
+     * 删除角色 旧的 不再拥有的权限
+     *
+     * @param roleId
+     * @param newPerms
+     * @param oldPerms
+     */
+    private void removeOldPermission(String roleId, Collection<Integer> newPerms, Collection<Integer> oldPerms) {
+        List<Integer> waitRemove = new ArrayList<>();
+        for (Integer oldPerm : oldPerms) {
+            if (!newPerms.contains(oldPerm)) {
+                waitRemove.add(oldPerm);
+            }
+        }
+        if (waitRemove.size() > 0) {
+            userDao.removeOldPermission(roleId, waitRemove);
+        }
+    }
+
 }

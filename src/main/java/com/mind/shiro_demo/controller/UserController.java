@@ -2,9 +2,6 @@ package com.mind.shiro_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.mind.shiro_demo.config.code.CommonCode;
-import com.mind.shiro_demo.config.code.TxResultResponse;
-import com.mind.shiro_demo.config.exception.CommonException;
 import com.mind.shiro_demo.service.UserService;
 import com.mind.shiro_demo.util.CommonUtil;
 import org.apache.shiro.authz.annotation.Logical;

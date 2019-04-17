@@ -1,7 +1,6 @@
 package com.mind.shiro_demo.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mind.shiro_demo.config.code.TxResultResponse;
 
 /**
  * Created with IDEA
@@ -13,7 +12,14 @@ import com.mind.shiro_demo.config.code.TxResultResponse;
 public interface RoleService {
 
 
-    TxResultResponse toTree();
+    /*
+     * @Description 获取部门（角色）树
+     * @author Mind
+     * @date 2019/4/17 17:34
+     * @param []
+     * @return com.mind.shiro_demo.config.code.TxResultResponse
+     */
+    JSONObject toTree();
 
 
     /*
@@ -23,6 +29,26 @@ public interface RoleService {
      * @param
      * @return
      */
-    TxResultResponse addRole(JSONObject jsonObject);
+    JSONObject addRole(JSONObject jsonObject);
 
+
+    /*
+     * @Description 更新角色
+     * @author Mind
+     * @date 2019/4/16 16:28
+     * @param
+     * @return
+     */
+    JSONObject upRole(JSONObject jsonObject);
+
+
+
+    /*
+     * @Description 删除角色
+     * @author Mind
+     * @date 2019/4/16 16:28
+     * @param
+     * @return
+     */
+    JSONObject delRole(JSONObject jsonObject);
 }

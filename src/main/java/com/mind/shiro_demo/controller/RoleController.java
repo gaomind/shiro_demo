@@ -1,9 +1,6 @@
 package com.mind.shiro_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mind.shiro_demo.config.code.CommonCode;
-import com.mind.shiro_demo.config.code.TxResultResponse;
-import com.mind.shiro_demo.config.exception.CommonException;
 import com.mind.shiro_demo.service.RoleService;
 import com.mind.shiro_demo.service.UserService;
 import com.mind.shiro_demo.util.CommonUtil;
@@ -35,39 +32,41 @@ public class RoleController {
 
     //获取角色树
     @PostMapping("/roleTree")
-    public TxResultResponse roleTree() {
-        TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
+    public JSONObject roleTree() {
         log.info("【UserController>>>roleTree】{}", "获取权限树");
-        try {
-            return roleService.toTree();
-        } catch (CommonException e) {
-            log.error("【UserController>>>roleTree】CommonException,e={}", e.getMsg());
-            return new TxResultResponse(e.getCode(), e.getMsg());
-        } catch (Exception e) {
-            log.error("【UserController>>>roleTree】Exception,e={}", e.getMessage());
-            return new TxResultResponse(CommonCode.SERVER_ERROR.getCode(), "服务器内部异常!");
-        }
+        return roleService.toTree();
+
     }
 
     //添加角色
     @PostMapping("/add")
-    public TxResultResponse addRole(@RequestBody JSONObject requestJson) {
-        TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
-        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
-        try {
-         //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
-            CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
+    public JSONObject addRole(@RequestBody JSONObject requestJson) {
 
-            return roleService.addRole(requestJson);
-        } catch (CommonException e) {
-            log.error("【UserController>>>roleTree】CommonException,e={}", e.getMsg());
-            return new TxResultResponse(e.getCode(), e.getMsg());
-        } catch (Exception e) {
-            log.error("【UserController>>>roleTree】Exception,e={}", e.getMessage());
-            return new TxResultResponse(CommonCode.SERVER_ERROR.getCode(), "服务器内部异常!");
-        }
+        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+        //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
+        CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
+
+        return roleService.addRole(requestJson);
+
+    }
+    //修改角色
+    @PostMapping("/up")
+    public JSONObject upRole(@RequestBody JSONObject requestJson) {
+        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+        //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
+        CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
+        return roleService.upRole(requestJson);
+
     }
 
+    //修改角色
+    @PostMapping("/del")
+    public JSONObject delRole(@RequestBody JSONObject requestJson) {
+        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+        //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
+        CommonUtil.hasAllRequired(requestJson, "roleId");
+        return roleService.delRole(requestJson);
+    }
 
 
 }

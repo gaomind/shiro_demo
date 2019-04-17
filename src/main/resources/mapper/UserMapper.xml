@@ -125,7 +125,13 @@
         FROM sys_permission p;
     </select>
 
+    <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId">
 
+
+        INSERT INTO sys_role
+        (role_name)
+        VALUES (#{roleName})
+    </insert>
     <insert id="insertRolePermission">
         insert into sys_role_permission (role_id, permission_id)
         values

@@ -80,5 +80,4 @@ public interface UserService {
     JSONObject deleteRole(JSONObject jsonObject);
 
 
-    TxResultResponse toTree();
 }

@@ -125,13 +125,6 @@
         FROM sys_permission p;
     </select>
 
-    <insert id="insertRole" useGeneratedKeys="true" keyProperty="roleId">
-
-
-        INSERT INTO sys_role
-        (role_name)
-        VALUES (#{roleName})
-    </insert>
 
     <insert id="insertRolePermission">
         insert into sys_role_permission (role_id, permission_id)
@@ -200,18 +193,6 @@
          WHERE user_name=#{username}
          AND is_delete='0';
     </select>
-    <select id ="list" resultType="com.mind.shiro_demo.model.SysRole">
-        select
-        r.id                    id ,
-        r.principal_name        principalName,
-        r.principal_tel         principalTel,
-        r.role_name             roleName,
-        r.parent_id             parentId,
-        r.level                 level,
-        r.seq                   seq,
-        r.conf_status           confStatus,
-        r.remark                remark
-        from sys_role r
-        where r.is_delete='0'
-    </select>
+
+
 </mapper>

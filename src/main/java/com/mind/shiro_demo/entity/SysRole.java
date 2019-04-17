@@ -1,26 +1,15 @@
-package com.mind.shiro_demo.model;
+package com.mind.shiro_demo.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * sys_role
  * @author 
  */
-
-@ToString
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class SysRole implements Serializable {
     /**
      * 角色id
@@ -30,8 +19,6 @@ public class SysRole implements Serializable {
     /**
      * 负责人姓名
      */
-    @NotBlank(message = "部门名称不能为空")
-    @Length(max = 20, min = 2, message = "部门名长度需要在2到15之间")
     private String principalName;
 
     /**
@@ -57,7 +44,6 @@ public class SysRole implements Serializable {
     /**
      * 部门在当前层级下的顺序，由小到大
      */
-    @NotNull(message = "展示顺序不能为空")
     private Integer seq;
 
     /**
@@ -68,33 +54,18 @@ public class SysRole implements Serializable {
     /**
      * 备注
      */
-    @Length(message = "备注长度不能超过150", max = 150)
     private String remark;
 
     private Date createTime;
 
     private Date updateTime;
-    /**
-     * 前端 折叠显示
-     */
-    private Boolean show =true;
 
     /**
-     * 是否有效  0未删除  1删除
+     * 是否有效  0有效 1无效
      */
     private String isDelete;
 
-    private List<SysRole> child;
-
     private static final long serialVersionUID = 1L;
-
-    public List<SysRole> getChild() {
-        return child;
-    }
-
-    public void setChild(List<SysRole> child) {
-        this.child = child;
-    }
 
     public Integer getId() {
         return id;
@@ -258,14 +229,5 @@ public class SysRole implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
-    }
-
-
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
     }
 }

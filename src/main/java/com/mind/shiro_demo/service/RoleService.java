@@ -12,6 +12,10 @@ import com.mind.shiro_demo.config.code.TxResultResponse;
  */
 public interface RoleService {
 
+
+    TxResultResponse toTree();
+
+
     /*
      * @Description 添加角色
      * @author Mind

@@ -1,6 +1,7 @@
 package com.mind.shiro_demo;
 
 import com.mind.shiro_demo.dao.UserDao;
+import com.mind.shiro_demo.service.RoleService;
 import com.mind.shiro_demo.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +22,9 @@ public class ShiroDemoApplicationTests {
 
 
     @Resource
-    private UserService userService;
+    private RoleService roleService;
     @Test
     public void test1(){
-        System.out.println(userService.toTree());
+        System.out.println(roleService.toTree());
     }
 }

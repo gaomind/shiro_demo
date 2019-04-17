@@ -39,7 +39,7 @@ public class RoleController {
         TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
         log.info("【UserController>>>roleTree】{}", "获取权限树");
         try {
-            return userService.toTree();
+            return roleService.toTree();
         } catch (CommonException e) {
             log.error("【UserController>>>roleTree】CommonException,e={}", e.getMsg());
             return new TxResultResponse(e.getCode(), e.getMsg());
@@ -55,7 +55,9 @@ public class RoleController {
         TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
         log.info("【UserController>>>roleTree】添加角色{}", requestJson);
         try {
-            CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
+         //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
+            CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
+
             return roleService.addRole(requestJson);
         } catch (CommonException e) {
             log.error("【UserController>>>roleTree】CommonException,e={}", e.getMsg());

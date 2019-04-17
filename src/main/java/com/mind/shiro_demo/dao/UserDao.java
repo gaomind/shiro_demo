@@ -1,7 +1,7 @@
 package com.mind.shiro_demo.dao;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mind.shiro_demo.model.SysRole;
+import com.mind.shiro_demo.entity.SysRole;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -134,6 +134,4 @@ public interface UserDao {
     int removeRoleAllPermission(JSONObject jsonObject);
 
 
-
-    List<SysRole> list();
 }

@@ -201,8 +201,17 @@
          AND is_delete='0';
     </select>
     <select id ="list" resultType="com.mind.shiro_demo.model.SysRole">
-        select *
-        from sys_role
-        where is_delete='0'
+        select
+        r.id                    id ,
+        r.principal_name        principalName,
+        r.principal_tel         principalTel,
+        r.role_name             roleName,
+        r.parent_id             parentId,
+        r.level                 level,
+        r.seq                   seq,
+        r.conf_status           confStatus,
+        r.remark                remark
+        from sys_role r
+        where r.is_delete='0'
     </select>
 </mapper>

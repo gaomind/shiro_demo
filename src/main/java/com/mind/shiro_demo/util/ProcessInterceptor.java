@@ -36,6 +36,7 @@ public class ProcessInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        System.out.println(method);
         return true;
     }
 

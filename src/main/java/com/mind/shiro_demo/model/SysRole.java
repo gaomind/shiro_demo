@@ -74,6 +74,10 @@ public class SysRole implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+    /**
+     * 前端 折叠显示
+     */
+    private Boolean show =true;
 
     /**
      * 是否有效  0未删除  1删除
@@ -254,5 +258,14 @@ public class SysRole implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+
+    public Boolean getShow() {
+        return show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
     }
 }

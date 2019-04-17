@@ -1,6 +1,7 @@
 package com.mind.shiro_demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.Lists;
 import com.mind.shiro_demo.config.code.CommonCode;
 import com.mind.shiro_demo.config.code.TxResultResponse;
 import com.mind.shiro_demo.config.exception.CommonException;
@@ -11,15 +12,12 @@ import com.mind.shiro_demo.util.CommonUtil;
 import com.mind.shiro_demo.util.constants.ErrorEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author: hxy
@@ -222,8 +220,27 @@ public class UserServiceImpl implements UserService {
         TxResultResponse tx = new TxResultResponse(CommonCode.SUCCESS.getCode(), CommonCode.SUCCESS.getMsg());
         log.info("【UserServiceImpl>>>toTree】**");
         try {
-            List<SysRole> treeModels=
-        return null;
+            List<SysRole> treeModels=userDao.list();
+            Iterator<SysRole> iterator =treeModels.iterator();
+            //找出顶级组织机构（这里我们定义 顶级的pid为0 ）
+            ArrayList<SysRole> rootNodes = Lists.newArrayList();
+            while (iterator.hasNext()) {
+                SysRole role =iterator.next();
+                if (role.getParentId() == 0){
+                    rootNodes.add(role);
+                    iterator.remove();
+                }
+            }
+            //为当前的组织机构排序（根据seq值）
+            if(!rootNodes.isEmpty()){
+                rootNodes.sort(comparator);
+            }
+
+            if(!treeModels.isEmpty() && !rootNodes.isEmpty()){
+                rootNodes.forEach(rootNode -> constructTree(rootNode,treeModels));
+            }
+            tx.setData(rootNodes);
+            return tx;
         }
         catch (CommonException e) {
             log.error("【UserServiceImpl>>>toTree】CommonException e={}",e.getMsg());
@@ -235,5 +252,43 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    private Comparator<SysRole> comparator = new Comparator<SysRole>() {
+        @Override
+        public int compare(SysRole s1, SysRole s2) {
+            return s2.getSeq() - s1.getSeq();
+        }
+    };
+    /**
+     * 构造树
+     *
+     * @param parentNode 父节点
+     * @param treeModels 剩余节点
+     */
+    private void constructTree(SysRole parentNode, List<SysRole> treeModels) {
+        Iterator<SysRole> iterator = treeModels.iterator();
+        //保存子节点
+        List<SysRole> childrens = new ArrayList<>();
 
+        while (iterator.hasNext()) {
+            SysRole node = iterator.next();
+            //找出下一级的节点
+            if (parentNode.getId().equals(node.getParentId())) {
+                childrens.add(node);
+                iterator.remove();
+            }
+        }
+        //为当前节点排序
+        if (!childrens.isEmpty()) {
+            childrens.sort(comparator);
+        }
+        //设置当前子节点为当前父节点的子集
+        if (!CollectionUtils.isEmpty(childrens)) {
+            parentNode.setChild(childrens);
+        }
+        //递归进行上述步骤  当我们的子节点没有时就一个顶级组织的递归就结束了
+        //当treeModels 空时 我们所有的顶级节点都把递归执行完了 就结束了
+        if (!CollectionUtils.isEmpty(treeModels) && !childrens.isEmpty()) {
+            childrens.forEach(node -> constructTree(node, treeModels));
+        }
+    }
 }

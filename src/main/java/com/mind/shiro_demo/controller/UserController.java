@@ -2,10 +2,15 @@ package com.mind.shiro_demo.controller;
 
 import com.alibaba.fastjson.JSONObject;
 
+import com.mind.shiro_demo.config.code.CommonCode;
+import com.mind.shiro_demo.config.code.TxResultResponse;
+import com.mind.shiro_demo.config.exception.CommonException;
 import com.mind.shiro_demo.service.UserService;
 import com.mind.shiro_demo.util.CommonUtil;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
+
     @Autowired
     private UserService userService;
 
@@ -113,6 +121,11 @@ public class UserController {
         CommonUtil.hasAllRequired(requestJson, "roleId");
         return userService.deleteRole(requestJson);
     }
+
+
+
+
+
 
 
 

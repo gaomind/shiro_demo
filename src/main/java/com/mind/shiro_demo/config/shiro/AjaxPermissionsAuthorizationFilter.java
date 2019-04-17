@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
@@ -25,7 +26,12 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
         jsonObject.put("returnMsg", ErrorEnum.E_20011.getErrorMsg());
         PrintWriter out = null;
         HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest rqs = (HttpServletRequest) request;
         try {
+            //下面这几行也是深坑我日, 这里的Access-Control-Allow-Origin 设置为*的话,前端还是会报错.
+            res.setHeader("Access-Control-Allow-Origin", rqs.getHeader("Origin"));
+            //  response1.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Credentials", "true");
             res.setCharacterEncoding("UTF-8");
             res.setContentType("application/json");
             out = response.getWriter();

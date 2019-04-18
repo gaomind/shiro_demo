@@ -1,4 +1,4 @@
-package com.mind.shiro_demo.dao;
+package com.mind.shiro_demo.entity;
 
 import java.util.ArrayList;
 import java.util.Date;

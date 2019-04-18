@@ -1,10 +1,13 @@
 package com.mind.shiro_demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mind.shiro_demo.dao.SysRoleDAO;
 import com.mind.shiro_demo.dao.UserDao;
+import com.mind.shiro_demo.entity.SysRole;
 import com.mind.shiro_demo.service.UserService;
 import com.mind.shiro_demo.util.CommonUtil;
 import com.mind.shiro_demo.util.constants.ErrorEnum;
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
 
+    @Resource
+    private SysRoleDAO roleDAO;
+
     /**
      * 装饰公司列表
      *
@@ -50,10 +56,20 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public JSONObject addUser(JSONObject jsonObject) {
+        log.info("【UserServiceImpl>>>addUser】{}",jsonObject);
         int exist = userDao.queryExistUsername(jsonObject);
         if (exist > 0) {
             return CommonUtil.errorJson(ErrorEnum.E_10009);
         }
+        String roleId =jsonObject.getString("roleId");
+        if ("0".equals(jsonObject.getString("isLeader"))){
+            SysRole sysRole=roleDAO.selectRoleById(roleId);
+            sysRole.setPrincipalName(jsonObject.getString("username"));
+            sysRole.setPrincipalTel(jsonObject.getString("tel"));
+            int i=roleDAO.updateByPrimaryKey(sysRole);
+        }
+
+
         userDao.addUser(jsonObject);
         return CommonUtil.successJson();
     }

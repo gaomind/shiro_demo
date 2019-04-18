@@ -3,6 +3,7 @@ package com.mind.shiro_demo.dao;
 import java.util.List;
 
 import com.mind.shiro_demo.entity.SysRole;
+import com.mind.shiro_demo.entity.SysRoleExample;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

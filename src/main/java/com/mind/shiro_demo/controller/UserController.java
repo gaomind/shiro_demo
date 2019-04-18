@@ -42,7 +42,7 @@ public class UserController {
     @RequiresPermissions("user:add")
     @PostMapping("/addUser")
     public JSONObject addUser(@RequestBody JSONObject requestJson) {
-        CommonUtil.hasAllRequired(requestJson, "username, password, nickname,   roleId");
+        CommonUtil.hasAllRequired(requestJson, "username,tel,nickname,roleId,isLeader");
         return userService.addUser(requestJson);
     }
 
@@ -118,7 +118,6 @@ public class UserController {
         CommonUtil.hasAllRequired(requestJson, "roleId");
         return userService.deleteRole(requestJson);
     }
-
 
 
 

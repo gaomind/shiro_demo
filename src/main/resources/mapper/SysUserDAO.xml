@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mind.shiro_demo.dao.SysRoleDAO">
-  <resultMap id="BaseResultMap" type="com.mind.shiro_demo.entity.SysRole">
+<mapper namespace="com.mind.shiro_demo.dao.SysUserDAO">
+  <resultMap id="BaseResultMap" type="com.mind.shiro_demo.entity.SysUser">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="principal_name" jdbcType="VARCHAR" property="principalName" />
-    <result column="principal_tel" jdbcType="VARCHAR" property="principalTel" />
-    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="level" jdbcType="VARCHAR" property="level" />
-    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
     <result column="conf_status" jdbcType="VARCHAR" property="confStatus" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
@@ -74,16 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, principal_name, principal_tel, role_name, parent_id, `level`, seq, conf_status, 
-    remark, create_time, update_time, is_delete
+    id, role_id, user_name, pass_word, nick_name, conf_status, create_time, update_time, 
+    is_delete
   </sql>
-  <select id="selectByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.mind.shiro_demo.entity.SysUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from sys_role
+    from sys_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,60 +99,49 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sys_role
+    from sys_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from sys_role
+    delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample">
-    delete from sys_role
+  <delete id="deleteByExample" parameterType="com.mind.shiro_demo.entity.SysUserExample">
+    delete from sys_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mind.shiro_demo.entity.SysRole">
-    insert into sys_role (id, principal_name, principal_tel, 
-      role_name, parent_id, `level`, 
-      seq, conf_status, remark, 
+  <insert id="insert" parameterType="com.mind.shiro_demo.entity.SysUser">
+    insert into sys_user (id, role_id, user_name, 
+      pass_word, nick_name, conf_status, 
       create_time, update_time, is_delete
       )
-    values (#{id,jdbcType=INTEGER}, #{principalName,jdbcType=VARCHAR}, #{principalTel,jdbcType=VARCHAR}, 
-      #{roleName,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, 
-      #{seq,jdbcType=INTEGER}, #{confStatus,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{passWord,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{confStatus,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.mind.shiro_demo.entity.SysRole">
-    insert into sys_role
+  <insert id="insertSelective" parameterType="com.mind.shiro_demo.entity.SysUser">
+    insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="principalName != null">
-        principal_name,
+      <if test="roleId != null">
+        role_id,
       </if>
-      <if test="principalTel != null">
-        principal_tel,
+      <if test="userName != null">
+        user_name,
       </if>
-      <if test="roleName != null">
-        role_name,
+      <if test="passWord != null">
+        pass_word,
       </if>
-      <if test="parentId != null">
-        parent_id,
-      </if>
-      <if test="level != null">
-        `level`,
-      </if>
-      <if test="seq != null">
-        seq,
+      <if test="nickName != null">
+        nick_name,
       </if>
       <if test="confStatus != null">
         conf_status,
-      </if>
-      <if test="remark != null">
-        remark,
       </if>
       <if test="createTime != null">
         create_time,
@@ -171,29 +157,20 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="principalName != null">
-        #{principalName,jdbcType=VARCHAR},
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="principalTel != null">
-        #{principalTel,jdbcType=VARCHAR},
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="roleName != null">
-        #{roleName,jdbcType=VARCHAR},
+      <if test="passWord != null">
+        #{passWord,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null">
-        #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null">
-        #{seq,jdbcType=INTEGER},
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="confStatus != null">
         #{confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -206,41 +183,32 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultType="java.lang.Long">
-    select count(*) from sys_role
+  <select id="countByExample" parameterType="com.mind.shiro_demo.entity.SysUserExample" resultType="java.lang.Long">
+    select count(*) from sys_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update sys_role
+    update sys_user
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.principalName != null">
-        principal_name = #{record.principalName,jdbcType=VARCHAR},
+      <if test="record.roleId != null">
+        role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
-      <if test="record.principalTel != null">
-        principal_tel = #{record.principalTel,jdbcType=VARCHAR},
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
-      <if test="record.roleName != null">
-        role_name = #{record.roleName,jdbcType=VARCHAR},
+      <if test="record.passWord != null">
+        pass_word = #{record.passWord,jdbcType=VARCHAR},
       </if>
-      <if test="record.parentId != null">
-        parent_id = #{record.parentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.level != null">
-        `level` = #{record.level,jdbcType=VARCHAR},
-      </if>
-      <if test="record.seq != null">
-        seq = #{record.seq,jdbcType=INTEGER},
+      <if test="record.nickName != null">
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
       </if>
       <if test="record.confStatus != null">
         conf_status = #{record.confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -257,16 +225,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update sys_role
+    update sys_user
     set id = #{record.id,jdbcType=INTEGER},
-      principal_name = #{record.principalName,jdbcType=VARCHAR},
-      principal_tel = #{record.principalTel,jdbcType=VARCHAR},
-      role_name = #{record.roleName,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      `level` = #{record.level,jdbcType=VARCHAR},
-      seq = #{record.seq,jdbcType=INTEGER},
+      role_id = #{record.roleId,jdbcType=INTEGER},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      pass_word = #{record.passWord,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
       conf_status = #{record.confStatus,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_delete = #{record.isDelete,jdbcType=VARCHAR}
@@ -274,32 +239,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mind.shiro_demo.entity.SysRole">
-    update sys_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.mind.shiro_demo.entity.SysUser">
+    update sys_user
     <set>
-      <if test="principalName != null">
-        principal_name = #{principalName,jdbcType=VARCHAR},
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="principalTel != null">
-        principal_tel = #{principalTel,jdbcType=VARCHAR},
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="roleName != null">
-        role_name = #{roleName,jdbcType=VARCHAR},
+      <if test="passWord != null">
+        pass_word = #{passWord,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null">
-        `level` = #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null">
-        seq = #{seq,jdbcType=INTEGER},
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="confStatus != null">
         conf_status = #{confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -313,58 +269,16 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mind.shiro_demo.entity.SysRole">
-    update sys_role
-    set principal_name = #{principalName,jdbcType=VARCHAR},
-      principal_tel = #{principalTel,jdbcType=VARCHAR},
-      role_name = #{roleName,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER},
-      `level` = #{level,jdbcType=VARCHAR},
-      seq = #{seq,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.mind.shiro_demo.entity.SysUser">
+    update sys_user
+    set role_id = #{roleId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      pass_word = #{passWord,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
       conf_status = #{confStatus,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
-
-
-
-
-
-  <!--     personal_start      -->
-  <select id="list" resultType="com.mind.shiro_demo.entity.SysRole">
-        select
-        r.id                    id ,
-        r.principal_name        principalName,
-        r.principal_tel         principalTel,
-        r.role_name             roleName,
-        r.parent_id             parentId,
-        r.level                 level,
-        r.seq                   seq,
-        r.conf_status           confStatus,
-        r.remark                remark
-        from sys_role r
-        where r.is_delete='0'
-    </select>
-
-  <select id="selectRoleById" resultType="com.mind.shiro_demo.entity.SysRole">
-        select
-        r.id                    id ,
-        r.principal_name        principalName,
-        r.principal_tel         principalTel,
-        r.role_name             roleName,
-        r.parent_id             parentId,
-        r.level                 level,
-        r.seq                   seq,
-        r.conf_status           confStatus,
-        r.remark                remark
-        from sys_role r
-        where r.is_delete='0' and r.id =#{roleId}
-    </select>
-
-  <!--     personal_ end      -->
-
 </mapper>

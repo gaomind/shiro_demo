@@ -1,6 +1,8 @@
 package com.mind.shiro_demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,6 +12,8 @@ import java.util.Date;
  * @author 
  */
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysRole implements Serializable {
     /**
      * 角色id

@@ -70,7 +70,9 @@
         <if test="password !='' and password !=null">
             , pass_word = #{password}
         </if>
-
+        <if test="tel !='' and tel !=null">
+            , tel = #{tel}
+        </if>
         , role_id = #{roleId}
         , is_delete = #{deleteStatus}
         WHERE id = #{userId}

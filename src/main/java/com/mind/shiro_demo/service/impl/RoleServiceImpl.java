@@ -46,11 +46,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public JSONObject toTree() {
 
-        log.info("【UserServiceImpl>>>toTree】**");
+        log.info("【UserServiceImpl>>>toTree】");
 
-        List<SysRole> sysRoles = roleDAO.list();
+        List<SysRoleModel> treeModels = roleDAO.list();
 
-        List<SysRoleModel> treeModels = beanMapper.mapAsList(sysRoles, SysRoleModel.class);
+      //  List<SysRoleModel> treeModels = beanMapper.mapAsList(sysRoles, SysRoleModel.class);
         Iterator<SysRoleModel> iterator = treeModels.iterator();
         //找出顶级组织机构（这里我们定义 顶级的pid为0 ）
         ArrayList<SysRoleModel> rootNodes = Lists.newArrayList();
@@ -69,7 +69,8 @@ public class RoleServiceImpl implements RoleService {
         if (!treeModels.isEmpty() && !rootNodes.isEmpty()) {
             rootNodes.forEach(rootNode -> constructTree(rootNode, treeModels));
         }
-        return CommonUtil.successJson();
+
+        return CommonUtil.successJson(rootNodes);
 
 
     }
@@ -126,18 +127,19 @@ public class RoleServiceImpl implements RoleService {
             return CommonUtil.errorJson(ErrorEnum.E_10010);
         }
         SysRole newRole = SysRole.builder().roleName(jsonObject.getString("roleName"))
-                .confStatus("1")
+                .confStatus("0")
                 .createTime(new Date())
                 .updateTime(new Date())
                 .isDelete("0")
+                .seq(1)
                 .parentId(jsonObject.getIntValue("parentId"))
                 .level(parentRole.getLevel() + "." + parentRole.getId())
-                .principalName(jsonObject.getString("principalName"))
-                .principalTel(jsonObject.getString("principalTel"))
+                .principalName("暂无")
+                .principalTel("暂无")
                 .build();
         int i = roleDAO.insert(newRole);
         int j = userDao.insertRolePermission(jsonObject.getString("roleId"), (List<Integer>) jsonObject.get("permissions"));
-        if (i + j != 2) {
+        if (i + j != ((List<Integer>) jsonObject.get("permissions")).size()+1) {
             log.error("【RoleServiceImpl>>>addRole】异常i={}j={}", i, j);
             return CommonUtil.errorJson(ErrorEnum.E_10010);
         }
@@ -150,8 +152,7 @@ public class RoleServiceImpl implements RoleService {
         log.info("【RoleServiceImpl>>>upRole】Param = {}", jsonObject);
         String roleId = jsonObject.getString("roleId");
         Integer parentId=jsonObject.getIntValue("parentId");
-        String principalName= jsonObject.getString("principalName");
-        String principalTel= jsonObject.getString("principalTel");
+
 
 
         List<Integer> newPerms = (List<Integer>) jsonObject.get("permissions");
@@ -162,8 +163,6 @@ public class RoleServiceImpl implements RoleService {
         SysRole parentRole=roleDAO.selectByPrimaryKey(parentId);
         sysRole.setParentId(jsonObject.getIntValue("parentId"));
         sysRole.setLevel(parentRole.getLevel() + "." + parentRole.getId());
-        sysRole.setPrincipalName(principalName);
-        sysRole.setPrincipalTel(principalTel);
         sysRole.setUpdateTime(new Date());
         int i=roleDAO.updateByPrimaryKey(sysRole);
         if (i!=1){

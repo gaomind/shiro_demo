@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-# url: jdbc:mysql://140.143.154.69:3306/vueshiro?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    # url: jdbc:mysql://140.143.154.69:3306/vueshiro?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     url: jdbc:mysql://59.110.232.17:3306/demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     username: root
     password: MsNaMDCBeU984tkzVFzFyZSw

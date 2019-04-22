@@ -42,14 +42,14 @@ public class UserController {
     @RequiresPermissions("user:add")
     @PostMapping("/addUser")
     public JSONObject addUser(@RequestBody JSONObject requestJson) {
-        CommonUtil.hasAllRequired(requestJson, "username,tel,nickname,roleId,isLeader");
+        CommonUtil.hasAllRequired(requestJson, "username,tel,nickname,roleId,isLeader");// 0 指定为部门负责人 1 未指定
         return userService.addUser(requestJson);
     }
 
     @RequiresPermissions("user:update")
     @PostMapping("/updateUser")
     public JSONObject updateUser(@RequestBody JSONObject requestJson) {
-        CommonUtil.hasAllRequired(requestJson, " nickname,   roleId, deleteStatus, userId");
+        CommonUtil.hasAllRequired(requestJson, " nickname,roleId, deleteStatus, userId,isLeader,tel");
         return userService.updateUser(requestJson);
     }
 

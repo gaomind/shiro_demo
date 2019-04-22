@@ -1,5 +1,6 @@
 package com.mind.shiro_demo.model;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * sys_role
@@ -34,6 +36,7 @@ public class SysRoleModel implements Serializable {
     @Length(max = 20, min = 2, message = "部门名长度需要在2到15之间")
     private String principalName;
 
+
     /**
      * 负责人联系方式
      */
@@ -48,6 +51,12 @@ public class SysRoleModel implements Serializable {
      * 父级id
      */
     private Integer parentId;
+
+
+    /**
+     * 父级部门名称
+     */
+    private String parentName;
 
     /**
      * 部门层级
@@ -85,6 +94,8 @@ public class SysRoleModel implements Serializable {
     private String isDelete;
 
     private List<SysRoleModel> child;
+
+    private List<JSONObject> menus;
 
     private static final long serialVersionUID = 1L;
 
@@ -192,74 +203,14 @@ public class SysRoleModel implements Serializable {
         this.isDelete = isDelete;
     }
 
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        SysRoleModel other = (SysRoleModel) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getPrincipalName() == null ? other.getPrincipalName() == null : this.getPrincipalName().equals(other.getPrincipalName()))
-            && (this.getPrincipalTel() == null ? other.getPrincipalTel() == null : this.getPrincipalTel().equals(other.getPrincipalTel()))
-            && (this.getRoleName() == null ? other.getRoleName() == null : this.getRoleName().equals(other.getRoleName()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
-            && (this.getLevel() == null ? other.getLevel() == null : this.getLevel().equals(other.getLevel()))
-            && (this.getSeq() == null ? other.getSeq() == null : this.getSeq().equals(other.getSeq()))
-            && (this.getConfStatus() == null ? other.getConfStatus() == null : this.getConfStatus().equals(other.getConfStatus()))
-            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()));
+
+    public String getParentName() {
+        return parentName;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getPrincipalName() == null) ? 0 : getPrincipalName().hashCode());
-        result = prime * result + ((getPrincipalTel() == null) ? 0 : getPrincipalTel().hashCode());
-        result = prime * result + ((getRoleName() == null) ? 0 : getRoleName().hashCode());
-        result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
-        result = prime * result + ((getLevel() == null) ? 0 : getLevel().hashCode());
-        result = prime * result + ((getSeq() == null) ? 0 : getSeq().hashCode());
-        result = prime * result + ((getConfStatus() == null) ? 0 : getConfStatus().hashCode());
-        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
-        result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
-        return result;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", principalName=").append(principalName);
-        sb.append(", principalTel=").append(principalTel);
-        sb.append(", roleName=").append(roleName);
-        sb.append(", parentId=").append(parentId);
-        sb.append(", level=").append(level);
-        sb.append(", seq=").append(seq);
-        sb.append(", confStatus=").append(confStatus);
-        sb.append(", remark=").append(remark);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", isDelete=").append(isDelete);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
-
 
     public Boolean getShow() {
         return show;
@@ -267,5 +218,83 @@ public class SysRoleModel implements Serializable {
 
     public void setShow(Boolean show) {
         this.show = show;
+    }
+
+
+    public List<JSONObject> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<JSONObject> menus) {
+        this.menus = menus;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SysRoleModel that = (SysRoleModel) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getPrincipalName(), that.getPrincipalName()) &&
+                Objects.equals(getPrincipalTel(), that.getPrincipalTel()) &&
+                Objects.equals(getRoleName(), that.getRoleName()) &&
+                Objects.equals(getParentId(), that.getParentId()) &&
+                Objects.equals(getParentName(), that.getParentName()) &&
+                Objects.equals(getLevel(), that.getLevel()) &&
+                Objects.equals(getSeq(), that.getSeq()) &&
+                Objects.equals(getConfStatus(), that.getConfStatus()) &&
+                Objects.equals(getRemark(), that.getRemark()) &&
+                Objects.equals(getCreateTime(), that.getCreateTime()) &&
+                Objects.equals(getUpdateTime(), that.getUpdateTime()) &&
+                Objects.equals(getShow(), that.getShow()) &&
+                Objects.equals(getIsDelete(), that.getIsDelete()) &&
+                Objects.equals(getChild(), that.getChild()) &&
+                Objects.equals(getMenus(), that.getMenus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPrincipalName(), getPrincipalTel(), getRoleName(), getParentId(), getParentName(), getLevel(), getSeq(), getConfStatus(), getRemark(), getCreateTime(), getUpdateTime(), getShow(), getIsDelete(), getChild(), getMenus());
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("\"id\":\"")
+                .append(id).append('\"');
+        sb.append(",\"principalName\":\"")
+                .append(principalName).append('\"');
+        sb.append(",\"principalTel\":\"")
+                .append(principalTel).append('\"');
+        sb.append(",\"roleName\":\"")
+                .append(roleName).append('\"');
+        sb.append(",\"parentId\":\"")
+                .append(parentId).append('\"');
+        sb.append(",\"parentName\":\"")
+                .append(parentName).append('\"');
+        sb.append(",\"level\":\"")
+                .append(level).append('\"');
+        sb.append(",\"seq\":\"")
+                .append(seq).append('\"');
+        sb.append(",\"confStatus\":\"")
+                .append(confStatus).append('\"');
+        sb.append(",\"remark\":\"")
+                .append(remark).append('\"');
+        sb.append(",\"createTime\":\"")
+                .append(createTime).append('\"');
+        sb.append(",\"updateTime\":\"")
+                .append(updateTime).append('\"');
+        sb.append(",\"show\":\"")
+                .append(show).append('\"');
+        sb.append(",\"isDelete\":\"")
+                .append(isDelete).append('\"');
+        sb.append(",\"child\":\"")
+                .append(child).append('\"');
+        sb.append(",\"menus\":\"")
+                .append(menus).append('\"');
+        sb.append('}');
+        return sb.toString();
     }
 }

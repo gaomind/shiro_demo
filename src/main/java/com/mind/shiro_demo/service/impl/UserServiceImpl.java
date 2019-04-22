@@ -68,8 +68,6 @@ public class UserServiceImpl implements UserService {
             sysRole.setPrincipalTel(jsonObject.getString("tel"));
             int i=roleDAO.updateByPrimaryKey(sysRole);
         }
-
-
         userDao.addUser(jsonObject);
         return CommonUtil.successJson();
     }
@@ -94,6 +92,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public JSONObject updateUser(JSONObject jsonObject) {
+        if ("0".equals(jsonObject.getString("isLeader"))){
+            SysRole sysRole=roleDAO.selectRoleById(jsonObject.getString("roleId"));
+            sysRole.setPrincipalName(jsonObject.getString("username"));
+            sysRole.setPrincipalTel(jsonObject.getString("tel"));
+            int i=roleDAO.updateByPrimaryKey(sysRole);
+        }
         userDao.updateUser(jsonObject);
         return CommonUtil.successJson();
     }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mind.shiro_demo.entity.SysRole;
 import com.mind.shiro_demo.entity.SysRoleExample;
+import com.mind.shiro_demo.model.SysRoleModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,7 @@ public interface SysRoleDAO {
 
 
     // personal_start
-    List<SysRole> list();
+    List<SysRoleModel> list();
 
 
     SysRole selectRoleById(@Param("roleId") String roleId);

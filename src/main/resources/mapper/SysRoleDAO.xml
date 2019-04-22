@@ -1,121 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mind.shiro_demo.dao.SysRoleDAO">
-  <resultMap id="BaseResultMap" type="com.mind.shiro_demo.entity.SysRole">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="principal_name" jdbcType="VARCHAR" property="principalName" />
-    <result column="principal_tel" jdbcType="VARCHAR" property="principalTel" />
-    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="level" jdbcType="VARCHAR" property="level" />
-    <result column="seq" jdbcType="INTEGER" property="seq" />
-    <result column="conf_status" jdbcType="VARCHAR" property="confStatus" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.mind.shiro_demo.entity.SysRole">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="principal_name" jdbcType="VARCHAR" property="principalName"/>
+        <result column="principal_tel" jdbcType="VARCHAR" property="principalTel"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="level" jdbcType="VARCHAR" property="level"/>
+        <result column="seq" jdbcType="INTEGER" property="seq"/>
+        <result column="conf_status" jdbcType="VARCHAR" property="confStatus"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, principal_name, principal_tel, role_name, parent_id, `level`, seq, conf_status, 
     remark, create_time, update_time, is_delete
   </sql>
-  <select id="selectByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from sys_role
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from sys_role
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_role
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample">
-    delete from sys_role
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.mind.shiro_demo.entity.SysRole">
+    <delete id="deleteByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample">
+        delete from sys_role
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.mind.shiro_demo.entity.SysRole">
     insert into sys_role (id, principal_name, principal_tel, 
       role_name, parent_id, `level`, 
       seq, conf_status, remark, 
@@ -127,193 +129,193 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.mind.shiro_demo.entity.SysRole">
-    insert into sys_role
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="principalName != null">
-        principal_name,
-      </if>
-      <if test="principalTel != null">
-        principal_tel,
-      </if>
-      <if test="roleName != null">
-        role_name,
-      </if>
-      <if test="parentId != null">
-        parent_id,
-      </if>
-      <if test="level != null">
-        `level`,
-      </if>
-      <if test="seq != null">
-        seq,
-      </if>
-      <if test="confStatus != null">
-        conf_status,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="isDelete != null">
-        is_delete,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="principalName != null">
-        #{principalName,jdbcType=VARCHAR},
-      </if>
-      <if test="principalTel != null">
-        #{principalTel,jdbcType=VARCHAR},
-      </if>
-      <if test="roleName != null">
-        #{roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null">
-        #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null">
-        #{seq,jdbcType=INTEGER},
-      </if>
-      <if test="confStatus != null">
-        #{confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultType="java.lang.Long">
-    select count(*) from sys_role
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update sys_role
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.principalName != null">
+    <insert id="insertSelective" parameterType="com.mind.shiro_demo.entity.SysRole">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="principalName != null">
+                principal_name,
+            </if>
+            <if test="principalTel != null">
+                principal_tel,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="level != null">
+                `level`,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="confStatus != null">
+                conf_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="principalName != null">
+                #{principalName,jdbcType=VARCHAR},
+            </if>
+            <if test="principalTel != null">
+                #{principalTel,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="confStatus != null">
+                #{confStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.mind.shiro_demo.entity.SysRoleExample" resultType="java.lang.Long">
+        select count(*) from sys_role
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_role
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.principalName != null">
+                principal_name = #{record.principalName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.principalTel != null">
+                principal_tel = #{record.principalTel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.roleName != null">
+                role_name = #{record.roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentId != null">
+                parent_id = #{record.parentId,jdbcType=INTEGER},
+            </if>
+            <if test="record.level != null">
+                `level` = #{record.level,jdbcType=VARCHAR},
+            </if>
+            <if test="record.seq != null">
+                seq = #{record.seq,jdbcType=INTEGER},
+            </if>
+            <if test="record.confStatus != null">
+                conf_status = #{record.confStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remark != null">
+                remark = #{record.remark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_role
+        set id = #{record.id,jdbcType=INTEGER},
         principal_name = #{record.principalName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.principalTel != null">
         principal_tel = #{record.principalTel,jdbcType=VARCHAR},
-      </if>
-      <if test="record.roleName != null">
         role_name = #{record.roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.parentId != null">
         parent_id = #{record.parentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.level != null">
         `level` = #{record.level,jdbcType=VARCHAR},
-      </if>
-      <if test="record.seq != null">
         seq = #{record.seq,jdbcType=INTEGER},
-      </if>
-      <if test="record.confStatus != null">
         conf_status = #{record.confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.isDelete != null">
-        is_delete = #{record.isDelete,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update sys_role
-    set id = #{record.id,jdbcType=INTEGER},
-      principal_name = #{record.principalName,jdbcType=VARCHAR},
-      principal_tel = #{record.principalTel,jdbcType=VARCHAR},
-      role_name = #{record.roleName,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      `level` = #{record.level,jdbcType=VARCHAR},
-      seq = #{record.seq,jdbcType=INTEGER},
-      conf_status = #{record.confStatus,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      is_delete = #{record.isDelete,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mind.shiro_demo.entity.SysRole">
-    update sys_role
-    <set>
-      <if test="principalName != null">
-        principal_name = #{principalName,jdbcType=VARCHAR},
-      </if>
-      <if test="principalTel != null">
-        principal_tel = #{principalTel,jdbcType=VARCHAR},
-      </if>
-      <if test="roleName != null">
-        role_name = #{roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null">
-        parent_id = #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null">
-        `level` = #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null">
-        seq = #{seq,jdbcType=INTEGER},
-      </if>
-      <if test="confStatus != null">
-        conf_status = #{confStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDelete != null">
-        is_delete = #{isDelete,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.mind.shiro_demo.entity.SysRole">
+        is_delete = #{record.isDelete,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mind.shiro_demo.entity.SysRole">
+        update sys_role
+        <set>
+            <if test="principalName != null">
+                principal_name = #{principalName,jdbcType=VARCHAR},
+            </if>
+            <if test="principalTel != null">
+                principal_tel = #{principalTel,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                `level` = #{level,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="confStatus != null">
+                conf_status = #{confStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mind.shiro_demo.entity.SysRole">
     update sys_role
     set principal_name = #{principalName,jdbcType=VARCHAR},
       principal_tel = #{principalTel,jdbcType=VARCHAR},
@@ -330,27 +332,54 @@
   </update>
 
 
+    <!--     personal_start      -->
+    <resultMap id="roleMap" type="com.mind.shiro_demo.model.SysRoleModel">
+        <id column="id" property="id"/>
+        <result column="principalName" property="principalName"/>
+        <result column="principalTel" property="principalTel"/>
+        <result column="roleName" property="roleName"/>
+        <result column="parentId" property="parentId"/>
+        <result column="parentName" property="parentName"/>
+        <result column="level" property="level"/>
+        <result column="seq" property="seq"/>
+        <result column="confStatus" property="confStatus"/>
+        <result column="remark" property="remark"/>
+        <collection property="menus" ofType="com.mind.shiro_demo.util.model.One2Many">
+            <id column="menuCode" property="menuCode"/>
+            <result column="menuName" property="menuName"/>
+            <collection property="permissions" ofType="com.alibaba.fastjson.JSONObject">
+                <id column="permissionId" property="permissionId"/>
+                <result column="permissionName" property="permissionName"/>
+            </collection>
+        </collection>
+    </resultMap>
 
-
-
-
-  <!--     personal_start      -->
-  <select id="list" resultType="com.mind.shiro_demo.entity.SysRole">
-        select
-        r.id                    id ,
+    <select id="list" resultMap="roleMap">
+     				        select
+        r.id                    id,
         r.principal_name        principalName,
         r.principal_tel         principalTel,
         r.role_name             roleName,
         r.parent_id             parentId,
+		pr.role_name            parentName,
         r.level                 level,
         r.seq                   seq,
         r.conf_status           confStatus,
-        r.remark                remark
+        r.remark                remark,
+        p.id                    permissionId,
+        p.menu_code             menuCode,
+        p.menu_name             menuName,
+        p.permission_name       permissionName
+
         from sys_role r
+        left join sys_role_permission rp on r.id =rp.role_id and rp.is_delete='0'
+        left join sys_permission p on rp.permission_id = p.id
+        left join (select pr.role_name, pr.id from sys_role pr )pr on pr.id=r.parent_id
         where r.is_delete='0'
+        order By r.id,p.id
     </select>
 
-  <select id="selectRoleById" resultType="com.mind.shiro_demo.entity.SysRole">
+    <select id="selectRoleById" resultType="com.mind.shiro_demo.entity.SysRole">
         select
         r.id                    id ,
         r.principal_name        principalName,
@@ -365,6 +394,6 @@
         where r.is_delete='0' and r.id =#{roleId}
     </select>
 
-  <!--     personal_ end      -->
+    <!--     personal_ end      -->
 
 </mapper>

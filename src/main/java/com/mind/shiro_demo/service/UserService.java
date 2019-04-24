@@ -79,4 +79,21 @@ public interface UserService {
     JSONObject deleteRole(JSONObject jsonObject);
 
 
+    /**
+     * 修改密码
+     *
+     * @param jsonObject
+     * @return
+     */
+    JSONObject upPassword(JSONObject jsonObject);
+
+
+    /**
+     * 重置密码
+     *
+     * @param jsonObject
+     * @return
+     */
+    JSONObject cleanPassword(JSONObject jsonObject);
+
 }

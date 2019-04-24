@@ -73,6 +73,9 @@
         <if test="tel !='' and tel !=null">
             , tel = #{tel}
         </if>
+        <if test="isLeader !='' and isLeader !=null">
+            , is_principal = #{isLeader}
+        </if>
         , role_id = #{roleId}
         , is_delete = #{deleteStatus}
         WHERE id = #{userId}

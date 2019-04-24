@@ -136,9 +136,10 @@ public class RoleServiceImpl implements RoleService {
                 .level(parentRole.getLevel() + "." + parentRole.getId())
                 .principalName("暂无")
                 .principalTel("暂无")
+                .id(AccountValidatorUtil.genUniqueKeyNum())
                 .build();
         int i = roleDAO.insert(newRole);
-        int j = userDao.insertRolePermission(jsonObject.getString("roleId"), (List<Integer>) jsonObject.get("permissions"));
+        int j = userDao.insertRolePermission(String.valueOf(newRole.getId()), (List<Integer>) jsonObject.get("permissions"));
         if (i + j != ((List<Integer>) jsonObject.get("permissions")).size()+1) {
             log.error("【RoleServiceImpl>>>addRole】异常i={}j={}", i, j);
             return CommonUtil.errorJson(ErrorEnum.E_10010);
@@ -159,11 +160,12 @@ public class RoleServiceImpl implements RoleService {
         JSONObject roleInfo = userDao.getRoleAllInfo(jsonObject);
         Set<Integer> oldPerms = (Set<Integer>) roleInfo.get("permissionIds");
         //修改角色名称
-        SysRole sysRole=roleDAO.selectRoleById(roleId);
+        SysRole sysRole=roleDAO.selectByPrimaryKey(Integer.valueOf(roleId));
         SysRole parentRole=roleDAO.selectByPrimaryKey(parentId);
         sysRole.setParentId(jsonObject.getIntValue("parentId"));
         sysRole.setLevel(parentRole.getLevel() + "." + parentRole.getId());
         sysRole.setUpdateTime(new Date());
+        sysRole.setRoleName(jsonObject.getString("roleNameAdd"));
         int i=roleDAO.updateByPrimaryKey(sysRole);
         if (i!=1){
             log.error("【RoleServiceImpl>>>upRole】异常 i={}",i);

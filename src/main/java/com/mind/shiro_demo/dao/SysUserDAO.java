@@ -1,5 +1,6 @@
 package com.mind.shiro_demo.dao;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mind.shiro_demo.entity.SysUser;
 import com.mind.shiro_demo.entity.SysUserExample;
 import java.util.List;
@@ -29,4 +30,6 @@ public interface SysUserDAO {
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+    List<JSONObject> listUser(JSONObject jsonObject);
 }

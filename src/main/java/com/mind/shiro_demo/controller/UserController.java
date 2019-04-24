@@ -120,11 +120,23 @@ public class UserController {
     }
 
 
+    /**
+     * 修改密码
+     */
+    @PostMapping("/upPassword")
+    public JSONObject upPassword(@RequestBody JSONObject requestJson) {
+        CommonUtil.hasAllRequired(requestJson, "userId,oldPassword,newPassword");
+        return userService.upPassword(requestJson);
+    }
 
-
-
-
-
+    /**
+     * 修改密码
+     */
+    @PostMapping("/cleanPassword")
+    public JSONObject cleanPassword(@RequestBody JSONObject requestJson) {
+        CommonUtil.hasAllRequired(requestJson, "userId");
+        return userService.cleanPassword(requestJson);
+    }
 
 
 }

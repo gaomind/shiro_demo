@@ -2,12 +2,14 @@ package com.mind.shiro_demo.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mind.shiro_demo.dao.SysRoleDAO;
+import com.mind.shiro_demo.dao.SysUserDAO;
 import com.mind.shiro_demo.dao.UserDao;
 import com.mind.shiro_demo.entity.SysRole;
+import com.mind.shiro_demo.entity.SysUser;
 import com.mind.shiro_demo.service.UserService;
+import com.mind.shiro_demo.util.AccountValidatorUtil;
 import com.mind.shiro_demo.util.CommonUtil;
 import com.mind.shiro_demo.util.constants.ErrorEnum;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private SysRoleDAO roleDAO;
 
+    @Resource
+    private SysUserDAO sysUserDAO;
+
     /**
      * 装饰公司列表
      *
@@ -44,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public JSONObject listUser(JSONObject jsonObject) {
         CommonUtil.fillPageParam(jsonObject);
         int count = userDao.countUser(jsonObject);
-        List<JSONObject> list = userDao.listUser(jsonObject);
+        List<JSONObject> list = sysUserDAO.listUser(jsonObject);
         return CommonUtil.successPage(jsonObject, list, count);
     }
 
@@ -98,6 +103,7 @@ public class UserServiceImpl implements UserService {
             sysRole.setPrincipalTel(jsonObject.getString("tel"));
             int i=roleDAO.updateByPrimaryKey(sysRole);
         }
+
         userDao.updateUser(jsonObject);
         return CommonUtil.successJson();
     }
@@ -226,6 +232,47 @@ public class UserServiceImpl implements UserService {
         }
         userDao.removeRole(jsonObject);
         userDao.removeRoleAllPermission(jsonObject);
+        return CommonUtil.successJson();
+    }
+
+    @Override
+    public JSONObject upPassword(JSONObject jsonObject) {
+        String userId = jsonObject.getString("userId");
+        String oldPassword = jsonObject.getString("oldPassword");
+        String newPassword = jsonObject.getString("newPassword");
+
+            SysUser user=sysUserDAO.selectByPrimaryKey(Integer.valueOf(userId));
+            if (AccountValidatorUtil.isNullOrEmpty(user)){
+                log.error("【UserServiceImpl>>>upPassword】异常{}",user);
+                return CommonUtil.errorJson(ErrorEnum.E_10011);
+            }
+            if (!oldPassword.equals(user.getPassWord())){
+                log.error("【UserServiceImpl>>>upPassword】异常{}",user);
+                return CommonUtil.errorJson(ErrorEnum.E_10011);
+            }
+            user.setPassWord(newPassword);
+            int i=sysUserDAO.updateByPrimaryKey(user);
+            if (i!=1){
+                log.error("【UserServiceImpl>>>upPassword】异常{}");
+                return CommonUtil.errorJson(ErrorEnum.E_10010);
+            }
+            return CommonUtil.successJson();
+    }
+
+    @Override
+    public JSONObject cleanPassword(JSONObject jsonObject) {
+        String userId = jsonObject.getString("userId");
+        SysUser user=sysUserDAO.selectByPrimaryKey(Integer.valueOf(userId));
+        if (AccountValidatorUtil.isNullOrEmpty(user)){
+            log.error("【UserServiceImpl>>>upPassword】异常{}",user);
+            return CommonUtil.errorJson(ErrorEnum.E_10011);
+        }
+        user.setPassWord("xytx123456");
+        int i=sysUserDAO.updateByPrimaryKey(user);
+        if (i!=1){
+            log.error("【UserServiceImpl>>>upPassword】异常{}");
+            return CommonUtil.errorJson(ErrorEnum.E_10010);
+        }
         return CommonUtil.successJson();
     }
 

@@ -8,6 +8,9 @@ import java.util.Date;
  * @author 
  */
 public class SysUser implements Serializable {
+    /**
+     * 用户ID
+     */
     private Integer id;
 
     /**
@@ -31,9 +34,29 @@ public class SysUser implements Serializable {
     private String nickName;
 
     /**
+     * 手机号
+     */
+    private String tel;
+
+    /**
+     * 是否为负责人  0否 1是
+     */
+    private String isPrincipal;
+
+    /**
+     * 用户状态
+     */
+    private String status;
+
+    /**
      * 标识状态
      */
     private String confStatus;
+
+    /**
+     * 登陆时间
+     */
+    private Date loginTime;
 
     /**
      * 创建时间
@@ -46,7 +69,7 @@ public class SysUser implements Serializable {
     private Date updateTime;
 
     /**
-     * 是否有效  0有效 1无效
+     * 是否删除  0否 1是
      */
     private String isDelete;
 
@@ -92,12 +115,44 @@ public class SysUser implements Serializable {
         this.nickName = nickName;
     }
 
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getIsPrincipal() {
+        return isPrincipal;
+    }
+
+    public void setIsPrincipal(String isPrincipal) {
+        this.isPrincipal = isPrincipal;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getConfStatus() {
         return confStatus;
     }
 
     public void setConfStatus(String confStatus) {
         this.confStatus = confStatus;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
     }
 
     public Date getCreateTime() {
@@ -141,7 +196,11 @@ public class SysUser implements Serializable {
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
             && (this.getPassWord() == null ? other.getPassWord() == null : this.getPassWord().equals(other.getPassWord()))
             && (this.getNickName() == null ? other.getNickName() == null : this.getNickName().equals(other.getNickName()))
+            && (this.getTel() == null ? other.getTel() == null : this.getTel().equals(other.getTel()))
+            && (this.getIsPrincipal() == null ? other.getIsPrincipal() == null : this.getIsPrincipal().equals(other.getIsPrincipal()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getConfStatus() == null ? other.getConfStatus() == null : this.getConfStatus().equals(other.getConfStatus()))
+            && (this.getLoginTime() == null ? other.getLoginTime() == null : this.getLoginTime().equals(other.getLoginTime()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getIsDelete() == null ? other.getIsDelete() == null : this.getIsDelete().equals(other.getIsDelete()));
@@ -156,7 +215,11 @@ public class SysUser implements Serializable {
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
         result = prime * result + ((getPassWord() == null) ? 0 : getPassWord().hashCode());
         result = prime * result + ((getNickName() == null) ? 0 : getNickName().hashCode());
+        result = prime * result + ((getTel() == null) ? 0 : getTel().hashCode());
+        result = prime * result + ((getIsPrincipal() == null) ? 0 : getIsPrincipal().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getConfStatus() == null) ? 0 : getConfStatus().hashCode());
+        result = prime * result + ((getLoginTime() == null) ? 0 : getLoginTime().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getIsDelete() == null) ? 0 : getIsDelete().hashCode());
@@ -174,7 +237,11 @@ public class SysUser implements Serializable {
         sb.append(", userName=").append(userName);
         sb.append(", passWord=").append(passWord);
         sb.append(", nickName=").append(nickName);
+        sb.append(", tel=").append(tel);
+        sb.append(", isPrincipal=").append(isPrincipal);
+        sb.append(", status=").append(status);
         sb.append(", confStatus=").append(confStatus);
+        sb.append(", loginTime=").append(loginTime);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", isDelete=").append(isDelete);

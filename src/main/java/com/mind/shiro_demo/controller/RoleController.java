@@ -42,7 +42,7 @@ public class RoleController {
     @PostMapping("/add")
     public JSONObject addRole(@RequestBody JSONObject requestJson) {
 
-        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+        log.info("【RoleController>>>addRole】{}",requestJson);
         //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
         CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
 
@@ -52,7 +52,7 @@ public class RoleController {
     //修改角色
     @PostMapping("/up")
     public JSONObject upRole(@RequestBody JSONObject requestJson) {
-        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+         log.info("【RoleController>>>upRole】{}",requestJson);
         //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
         CommonUtil.hasAllRequired(requestJson, "roleName,parentId,seq");
         return roleService.upRole(requestJson);
@@ -62,7 +62,7 @@ public class RoleController {
     //修改角色
     @PostMapping("/del")
     public JSONObject delRole(@RequestBody JSONObject requestJson) {
-        log.info("【UserController>>>roleTree】添加角色{}", requestJson);
+        log.info("【RoleController>>>delRole】{}",requestJson);
         //   CommonUtil.hasAllRequired(requestJson, "roleName,permissions,parentId,seq");
         CommonUtil.hasAllRequired(requestJson, "roleId");
         return roleService.delRole(requestJson);

@@ -13,7 +13,7 @@
             sys_user u
         WHERE u.user_name = #{username}
               AND u.pass_word = #{password}
-              AND u.is_delete='1'
+              AND u.is_delete='0'
     </select>
 
 </mapper>

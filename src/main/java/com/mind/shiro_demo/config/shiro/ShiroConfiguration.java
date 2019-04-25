@@ -22,7 +22,7 @@ import java.util.Map;
  * @description: shiro配置类
  * @date: 2017/10/24 10:10
  */
-//@Configuration
+@Configuration
 public class ShiroConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(ShiroConfiguration.class);
 

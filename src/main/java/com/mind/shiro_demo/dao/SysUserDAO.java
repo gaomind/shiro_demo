@@ -31,5 +31,10 @@ public interface SysUserDAO {
 
     int updateByPrimaryKey(SysUser record);
 
+
+
+
     List<JSONObject> listUser(JSONObject jsonObject);
+
+    JSONObject selectUserInfoForLogin(String username);
 }

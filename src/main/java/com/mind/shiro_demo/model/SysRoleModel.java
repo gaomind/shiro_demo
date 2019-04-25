@@ -1,10 +1,7 @@
 package com.mind.shiro_demo.model;
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -23,6 +20,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class SysRoleModel implements Serializable {
     /**
      * 角色id
@@ -87,6 +85,11 @@ public class SysRoleModel implements Serializable {
      * 前端 折叠显示
      */
     private Boolean show =true;
+
+    /**
+     * 前端 高光显示
+     */
+    private Boolean isActive =false ;
 
     /**
      * 是否有效  0未删除  1删除
@@ -230,34 +233,9 @@ public class SysRoleModel implements Serializable {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SysRoleModel that = (SysRoleModel) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getPrincipalName(), that.getPrincipalName()) &&
-                Objects.equals(getPrincipalTel(), that.getPrincipalTel()) &&
-                Objects.equals(getRoleName(), that.getRoleName()) &&
-                Objects.equals(getParentId(), that.getParentId()) &&
-                Objects.equals(getParentName(), that.getParentName()) &&
-                Objects.equals(getLevel(), that.getLevel()) &&
-                Objects.equals(getSeq(), that.getSeq()) &&
-                Objects.equals(getConfStatus(), that.getConfStatus()) &&
-                Objects.equals(getRemark(), that.getRemark()) &&
-                Objects.equals(getCreateTime(), that.getCreateTime()) &&
-                Objects.equals(getUpdateTime(), that.getUpdateTime()) &&
-                Objects.equals(getShow(), that.getShow()) &&
-                Objects.equals(getIsDelete(), that.getIsDelete()) &&
-                Objects.equals(getChild(), that.getChild()) &&
-                Objects.equals(getMenus(), that.getMenus());
+    public Boolean getActive() {
+        return isActive;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getPrincipalName(), getPrincipalTel(), getRoleName(), getParentId(), getParentName(), getLevel(), getSeq(), getConfStatus(), getRemark(), getCreateTime(), getUpdateTime(), getShow(), getIsDelete(), getChild(), getMenus());
-    }
-
 
     @Override
     public String toString() {
@@ -288,6 +266,8 @@ public class SysRoleModel implements Serializable {
                 .append(updateTime).append('\"');
         sb.append(",\"show\":\"")
                 .append(show).append('\"');
+        sb.append(",\"isActive\":\"")
+                .append(isActive).append('\"');
         sb.append(",\"isDelete\":\"")
                 .append(isDelete).append('\"');
         sb.append(",\"child\":\"")
@@ -296,5 +276,38 @@ public class SysRoleModel implements Serializable {
                 .append(menus).append('\"');
         sb.append('}');
         return sb.toString();
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SysRoleModel that = (SysRoleModel) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getPrincipalName(), that.getPrincipalName()) &&
+                Objects.equals(getPrincipalTel(), that.getPrincipalTel()) &&
+                Objects.equals(getRoleName(), that.getRoleName()) &&
+                Objects.equals(getParentId(), that.getParentId()) &&
+                Objects.equals(getParentName(), that.getParentName()) &&
+                Objects.equals(getLevel(), that.getLevel()) &&
+                Objects.equals(getSeq(), that.getSeq()) &&
+                Objects.equals(getConfStatus(), that.getConfStatus()) &&
+                Objects.equals(getRemark(), that.getRemark()) &&
+                Objects.equals(getCreateTime(), that.getCreateTime()) &&
+                Objects.equals(getUpdateTime(), that.getUpdateTime()) &&
+                Objects.equals(getShow(), that.getShow()) &&
+                Objects.equals(isActive, that.isActive) &&
+                Objects.equals(getIsDelete(), that.getIsDelete()) &&
+                Objects.equals(getChild(), that.getChild()) &&
+                Objects.equals(getMenus(), that.getMenus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getPrincipalName(), getPrincipalTel(), getRoleName(), getParentId(), getParentName(), getLevel(), getSeq(), getConfStatus(), getRemark(), getCreateTime(), getUpdateTime(), getShow(), isActive, getIsDelete(), getChild(), getMenus());
     }
 }

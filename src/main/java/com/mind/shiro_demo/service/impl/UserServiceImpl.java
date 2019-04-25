@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
 
-
     @Resource
     private SysRoleDAO roleDAO;
 
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
             return CommonUtil.errorJson(ErrorEnum.E_10009);
         }
         String roleId =jsonObject.getString("roleId");
-        if ("0".equals(jsonObject.getString("isLeader"))){
+        if ("1".equals(jsonObject.getString("isLeader"))){
             SysRole sysRole=roleDAO.selectRoleById(roleId);
             sysRole.setPrincipalName(jsonObject.getString("username"));
             sysRole.setPrincipalTel(jsonObject.getString("tel"));
@@ -243,17 +242,17 @@ public class UserServiceImpl implements UserService {
 
             SysUser user=sysUserDAO.selectByPrimaryKey(Integer.valueOf(userId));
             if (AccountValidatorUtil.isNullOrEmpty(user)){
-                log.error("【UserServiceImpl>>>upPassword】异常{}",user);
+                log.error("【UserServiceImpl>>>upPassword】异常一{}",user);
                 return CommonUtil.errorJson(ErrorEnum.E_10011);
             }
             if (!oldPassword.equals(user.getPassWord())){
-                log.error("【UserServiceImpl>>>upPassword】异常{}",user);
+                log.error("【UserServiceImpl>>>upPassword】异常二{}",user);
                 return CommonUtil.errorJson(ErrorEnum.E_10011);
             }
             user.setPassWord(newPassword);
             int i=sysUserDAO.updateByPrimaryKey(user);
             if (i!=1){
-                log.error("【UserServiceImpl>>>upPassword】异常{}");
+                log.error("【UserServiceImpl>>>upPassword】异常三{}");
                 return CommonUtil.errorJson(ErrorEnum.E_10010);
             }
             return CommonUtil.successJson();

@@ -364,4 +364,16 @@
       order by u.login_time
       LIMIT #{offSet}, #{pageRow}
      </select>
+
+    <select id="selectUserInfoForLogin" resultType="com.alibaba.fastjson.JSONObject">
+          select
+      u.id as userId,
+      u.user_name as userName,
+      u.nick_name as nickName,
+      u.tel as tel,
+      r.role_name as roleName
+      from sys_user u
+      LEFT JOIN sys_role r on r.id =u.role_id
+      where u.user_name =#{username} and u.is_delete='0'
+    </select>
 </mapper>

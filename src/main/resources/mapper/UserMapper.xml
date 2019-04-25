@@ -59,8 +59,8 @@
 
     <insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO sys_user
-        (user_name, pass_word, nick_name, role_id) VALUES
-            (#{username}, #{password}, #{nickname}, #{roleId})
+        (user_name, pass_word, nick_name, role_id,is_principal,tel,status,conf_status) VALUES
+            (#{username}, 'xytx123456', #{nickname}, #{roleId},#{isLeader},#{tel},'0','0')
     </insert>
 
     <update id="updateUser">

@@ -166,7 +166,7 @@ public class RoleServiceImpl implements RoleService {
         sysRole.setLevel(parentRole.getLevel() + "." + parentRole.getId());
         sysRole.setUpdateTime(new Date());
         sysRole.setRoleName(jsonObject.getString("roleNameAdd"));
-        int i=roleDAO.updateByPrimaryKey(sysRole);
+        int i=roleDAO.updateByPrimaryKeySelective(sysRole);
         if (i!=1){
             log.error("【RoleServiceImpl>>>upRole】异常 i={}",i);
             return CommonUtil.errorJson(ErrorEnum.E_10010);

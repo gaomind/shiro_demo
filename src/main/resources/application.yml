@@ -11,3 +11,11 @@ mybatis:
   mapperLocations: classpath:/mapper/*.xml
 server:
   port: 8088
+
+
+
+logging:
+  level:
+    com.mind.shiro_demo.dao: debug
+
+

@@ -51,7 +51,7 @@ public class PermissionServiceImpl implements PermissionService {
         String confStatus="1";// 1 代表是管理员
         //如果是管理员
        // String roleIdKey = "roleId";
-        if (confStatus == userPermission.getString("confStatus")) {
+        if (confStatus .equals(userPermission.getString("confStatus"))) {
             //查询所有菜单  所有权限
             Set<String> menuList = permissionDao.getAllMenu();
             Set<String> permissionList = permissionDao.getAllPermission();

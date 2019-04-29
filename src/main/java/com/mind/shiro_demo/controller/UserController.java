@@ -33,20 +33,20 @@ public class UserController {
      * @param request
      * @return
      */
-    @RequiresPermissions("user:list")
+   @RequiresPermissions("user:list")
     @GetMapping("/list")
     public JSONObject listUser(HttpServletRequest request) {
         return userService.listUser(CommonUtil.request2Json(request));
     }
 
-    @RequiresPermissions("user:add")
+   @RequiresPermissions("user:add")
     @PostMapping("/addUser")
     public JSONObject addUser(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, "username,tel,nickname,roleId,isLeader");// 0 指定为部门负责人 1 未指定
         return userService.addUser(requestJson);
     }
 
-    @RequiresPermissions("user:update")
+    @RequiresPermissions("user:add")
     @PostMapping("/updateUser")
     public JSONObject updateUser(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, " nickname,roleId, deleteStatus, userId,isLeader,tel");
@@ -64,7 +64,7 @@ public class UserController {
      *
      * @return
      */
-    @RequiresPermissions("role:list")
+    @RequiresPermissions("org:list")
     @GetMapping("/listRole")
     public JSONObject listRole() {
         return userService.listRole();
@@ -75,7 +75,7 @@ public class UserController {
      *
      * @return
      */
-    @RequiresPermissions("role:list")
+    @RequiresPermissions("org:list")
     @GetMapping("/listAllPermission")
     public JSONObject listAllPermission() {
         return userService.listAllPermission();
@@ -86,7 +86,7 @@ public class UserController {
      *
      * @return
      */
-    @RequiresPermissions("role:add")
+    @RequiresPermissions("org:add")
     @PostMapping("/addRole")
     public JSONObject addRole(@RequestBody JSONObject requestJson) {
         System.out.println(requestJson);
@@ -99,7 +99,7 @@ public class UserController {
      *
      * @return
      */
-    @RequiresPermissions("role:update")
+    @RequiresPermissions("org:add")
     @PostMapping("/updateRole")
     public JSONObject updateRole(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, "roleId,roleName,permissions");
@@ -112,7 +112,7 @@ public class UserController {
      * @param requestJson
      * @return
      */
-    @RequiresPermissions("role:delete")
+    @RequiresPermissions("org:del")
     @PostMapping("/deleteRole")
     public JSONObject deleteRole(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, "roleId");

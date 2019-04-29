@@ -8,6 +8,7 @@
         <result column="nickname"      property="nickname"/>
         <result column="roleId"        property="roleId"/>
         <result column="roleName"      property="roleName"/>
+        <result column="confStatus"    property="confStatus"/>
         <collection property="menuList" ofType="String">
             <id column="menuCode"      property="menuCode"/>
         </collection>
